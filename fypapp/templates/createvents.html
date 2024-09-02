@@ -1,0 +1,52 @@
+{% include "./title.html" %}
+{% load bootstrap4 %}
+
+<style>
+    .card {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        border: 1px solid #ddd;
+    }
+
+    .row.justify-content-center {
+        display: flex;
+        justify-content: center;
+    }
+
+    .card-title {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        margin-bottom: 15px;
+    }
+
+    .text-center button {
+        width: 100%;
+    }
+</style>
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Create New Event</h2>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}  
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-3">Create Event</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

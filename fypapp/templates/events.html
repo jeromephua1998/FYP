@@ -1,0 +1,51 @@
+{% load static %}
+{% include "./title.html" %}
+{% load bootstrap4 %}
+
+<style>
+    .event-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    }
+    .event-title {
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .event-image {
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+
+    }
+    .event-description {
+        font-size: 15px;
+        margin-bottom: 20px;
+        text-align: justify;
+    }
+
+</style>
+
+{% block content %}
+<div class="container mt-4">
+    <div class="event-container">
+        <h1 class="event-title">{{ event.title }}</h1>
+
+        {% if event.image %}
+            <img src="{{ event.image.url }}" alt="{{ event.title }}" class="event-image">
+        {% else %}
+            <img src="{% static 'default_event_image.jpg' %}" alt="Default Image" class="event-image">
+        {% endif %}
+
+        <p class="event-description">{{ event.description }}</p>
+
+        <p class="event-dates">
+            <strong>Starts:</strong> {{ event.startdate|date:"D, d M Y H:i" }} <br>
+            <strong>Ends:</strong> {{ event.enddate|date:"D, d M Y H:i" }}
+        </p>
+    </div>
+</div>
+{% endblock %}

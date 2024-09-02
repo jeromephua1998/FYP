@@ -1,0 +1,167 @@
+{% include "./title.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+    <style>
+        .pet-image-container {
+            width: 100%; 
+            height: 200px; 
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .pet-image {
+            width: 100%; 
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h4, p {
+            text-align: center;
+            margin: 5px 0;
+            font:bold;
+        }
+
+        .col-md-4 {
+            flex: 0 0 23%; 
+            max-width: 23%; 
+            padding: 0 10px; 
+        }
+
+        .border {
+            padding: 10px;
+            margin: 10px 0; 
+            border: 1px solid #616060; 
+        }
+
+        .pet-details p {
+            font-size: 0.8em; 
+        }
+        
+        .pagination a {
+            transition: background-color .3s;
+        }
+
+        .c {
+            text-align: center; 
+            margin-top: 20px; 
+            clear: both; 
+            width: 100%; /
+        }
+
+
+
+        .pagination {
+            display: inline-block; 
+        }
+
+        .pagination li {
+            display: inline-block; 
+        }
+
+        .pagination a {
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+
+        .pagination .active a {
+            background-color: #333131;
+            color: white;
+        }
+
+
+     #heart {
+            color: rgb(65, 59, 59);  
+            font-size: 30px;
+            }
+
+
+    </style>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <h1 class="text-center">Available Dogs</h1>
+    <div class="text-center">
+        <form method="get" action="" class="form-inline justify-content-center mb-3">
+            {% csrf_token %}
+            <div class="form-group mb-2 mx-2">
+                {{ form.name.label_tag }} {{ form.name }}
+            </div>
+            <div class="form-group mb-2 mx-2">
+                {{ form.breed.label_tag }} {{ form.breed }}
+            </div>
+            <div class="form-group mb-2 mx-2">
+                {{ form.gender.label_tag }} {{ form.gender }}
+            </div>
+            <div class="form-group mb-2 mx-2">
+                {{ form.age.label_tag }} {{ form.age }}
+            </div>
+            <button type="submit" class="btn btn-primary mb-2 mx-2">Filter</button>
+        </form>
+    </div>
+    
+    <div class="d-flex flex-wrap">
+        {% for pet in page_obj %}
+        <div class="col-md-4 mb-4">
+            
+                <div class="border p-3">
+                    {% if pet.image %}
+                    <div class="pet-image-container">
+                        <a href="{% url 'petdesc' pet.id %}" class="pet-link">
+                        <img src="{{ pet.image.url }}" class="img-fluid pet-image" alt="{{ pet.name }}">
+                    </a>
+                    </div>
+                    {% endif %}
+                    <h4>{{ pet.name }}</h4>
+                    <div class="pet-details">
+                        <p>{{ pet.breed }}</p>
+                        <p>{{ pet.gender }}</p>
+                    </div>
+                    <i class="fa fa-heart" id="heart" ></i>
+                </div>
+            
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="c">
+        <ul class="pagination">
+   
+            {% if page_obj.has_previous %}
+            <li>
+                <a href="?page={{ page_obj.previous_page_number }}">Prev</a>
+            </li>
+            {% else %}
+            <li class="disabled">
+                <span>Prev</span>
+            </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="active">
+                        <a href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li>
+                        <a href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li>
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            {% else %}
+            <li class="disabled">
+                <span>Next</span>
+            </li>
+            {% endif %}
+        </ul>
+    </div>  
+    
+
+{% endblock %}

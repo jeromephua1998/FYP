@@ -1,0 +1,39 @@
+{% include "./title.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="container">
+    <h1>Register</h1>
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-primary" onclick="showForm('adopter')">Register as Adopter</button>
+        <button type="button" class="btn btn-secondary" onclick="showForm('shelter')">Register as Shelter</button>
+    </div>
+
+    <div id="adopter_form" style="display:none; margin-top: 20px;">
+        <h2>Adopter Registration</h2>
+        <form method="post" action="{% url 'registration' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="adopter_register">
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+
+    <div id="shelter_form" style="display:none; margin-top: 20px;">
+        <h2>Shelter Registration</h2>
+        <form method="post" action="{% url 'registration' %}">
+            {% csrf_token %}
+            {{ form2.as_p }}
+            <input type="hidden" name="shelter_register" >
+            <button type="submit" class="btn btn-secondary">Register</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function showForm(formType) {
+        document.getElementById('adopter_form').style.display = formType === 'adopter' ? 'block' : 'none';
+        document.getElementById('shelter_form').style.display = formType === 'shelter' ? 'block' : 'none';
+    }
+</script>
+{% endblock %}

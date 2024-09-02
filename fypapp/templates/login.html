@@ -1,0 +1,60 @@
+{% include "./title.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="container">
+    <h1>Login</h1>
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-primary" onclick="showForm('adopter')">Login as Adopter</button>
+        <button type="button" class="btn btn-secondary" onclick="showForm('shelter')">Login as Shelter</button>
+    </div>
+
+    {% if messages %}
+    <div class="alert alert-danger" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div id="adopter_form" style="display:none; margin-top: 20px;">
+        <h2>Adopter Login</h2>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="adopter_username">Username:</label>
+                <input type="text" class="form-control" id="adopter_username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="adopter_password">Password:</label>
+                <input type="password" class="form-control" id="adopter_password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary" name="adopter_login">Login</button>
+        </form>
+    </div>
+
+    <div id="shelter_form" style="display:none; margin-top: 20px;">
+        <h2>Shelter Login</h2>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <input type="hidden" name="shelter_login" value="true">
+            <div class="form-group">
+                <label for="shelter_username">Username</label>
+                <input type="text" class="form-control" id="shelter_username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="shelter_password">Password</label>
+                <input type="password" class="form-control" id="shelter_password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-secondary" name="shelter_login">Login</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function showForm(formType) {
+        document.getElementById('adopter_form').style.display = formType === 'adopter' ? 'block' : 'none';
+        document.getElementById('shelter_form').style.display = formType === 'shelter' ? 'block' : 'none';
+    }
+</script>
+{% endblock %}

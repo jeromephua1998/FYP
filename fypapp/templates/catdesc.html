@@ -1,0 +1,38 @@
+{% include "./title.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<style>
+    img {
+    max-width: 100%;
+    max-height: 400px; 
+    width: auto;
+    height: auto;
+}
+</style>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            {% if pet.image %}
+            <img src="{{ pet.image.url }}" class="img-fluid custom-pet-image" alt="{{ pet.name }}">
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h1>{{ pet.name }}</h1>
+            <p><strong>Breed:</strong> {{ pet.breed }}</p>
+            <p><strong>Age:</strong> {{ pet.age }} years</p>
+            <p><strong>Gender:</strong> {{ pet.gender }}</p>
+            <p><strong>Description:</strong> {{ pet.description }}</p>
+            <p><strong>Likes:</strong> {{ pet.likes }}</p>
+            <br>
+            {% if user.is_authenticated %}
+            {% if user.appuser.usertype == 'adopter' %}
+            <a href="{% url 'createmeeting' pet.id %}" class="btn btn-primary btn-adopt">Adopt</a>
+            {% endif %}
+        {% else %}
+            <a href="/registration" class="btn btn-primary btn-adopt">Adopt</a>
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

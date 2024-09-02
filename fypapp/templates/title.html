@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}My Site{% endblock %}</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/real.css' %}">
+  
+  <style>
+    .navbar-nav {
+      float: none; 
+      display: flex; 
+      justify-content: center;
+      width: 100%; 
+      padding-top: 0.5px; 
+
+    }
+
+
+    
+    .topnav-right {
+      float: right;
+      height: auto; 
+
+
+    }
+
+.navlogo{
+      height: 100px; 
+      width: 80px;  
+    }
+
+    .navbar-header{
+      height:50px;
+    }
+
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+
+      <img src="{% static 'images/logo1.jpg' %}" alt="Test Image" class="navlogo">
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/home">Home</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Pets <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/cats">Cat Adoption</a></li>
+            <li><a href="/dogs">Dog Adoption</a></li>
+          </ul>
+        </li>
+        {% if user.appuser.usertype == 'shelter' %}
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Events <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/viewevents">View Events</a></li>
+            <li><a href="/createevents">Create Events</a></li>
+          </ul>
+        </li>
+
+
+
+
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Create Pet listings<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/dogregister">List Dogs</li>
+            <li><a href="/catregister">List Cats</a></li>
+          </ul>
+        </li>
+        <li><a href="/viewmeetings">View Meetings</a></li>
+        {% elif user.appuser.usertype == 'adopter'%}
+
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/viewevents">Events</a></li>
+            <li><a href="/donation">Donations  </a></li>
+            <li><a href="/faq">FAQ  </a></li>
+            </ul>
+            </div>
+
+
+        {%endif%}
+      </ul>
+      <div class ="topnav-right">
+      <ul class="nav navbar-nav navbar-right">
+        
+        {% if user.is_authenticated %}
+          {% if user.appuser.usertype == 'adopter' or user.appuser.usertype == 'shelter' %}
+            <li><a href="/editprofile"><span class="glyphicon glyphicon-user"></span> Hello {{ user.username }}</a></li>
+            <li><a href="../logout/"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+          {% else %}
+            <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li><a href="/registration"><span class="glyphicon glyphicon-plus"></span> Sign Up</a></li>
+          {% endif %}
+        {% else %}
+          <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          <li><a href="/registration"><span class="glyphicon glyphicon-plus"></span> Sign Up</a></li>
+        {% endif %}
+      </ul>
+    </div>
+    </div>
+  </div>
+</nav>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

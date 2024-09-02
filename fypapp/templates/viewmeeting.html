@@ -1,0 +1,38 @@
+{% include "./title.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Adoption meeting requests</h2>
+    {% if meetings %}
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Adopter Name</th>
+                <th>Pet</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Experience</th>
+                <th>Meeting Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for meeting in meetings %}
+            <tr>
+                <td>{{ meeting.fullname }}</td>
+                <td><a href="{% url 'petdesc' meeting.pet.id %}" class="pet-link">{{ meeting.pet.name }}</a></td>
+                <td>{{ meeting.phonenumber }}</td>
+                <td>{{ meeting.email }}</td>
+                <td>{{ meeting.experience }}</td>
+                <td>{{ meeting.meeting_time|date:"D, d M Y H:i" }}</td>
+
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-center">No meetings scheduled</p>
+    {% endif %}
+</div>
+{% endblock %}
