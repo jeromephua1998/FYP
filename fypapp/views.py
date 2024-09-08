@@ -218,16 +218,16 @@ def createevents(request):
         form = EventForm(request.POST, request.FILES)
 
         if user_profile and user_profile.shelterid:
-            shelter = user_profile.shelterid 
-            event = form.save(commit=False)
-            event.shelterid = shelter 
-            event.save()
-            return redirect('cat_list')  
+            if form.is_valid():
+                shelter = user_profile.shelterid 
+                event = form.save(commit=False)
+                event.shelterid = shelter 
+                event.save()
+                return redirect('view_events')  
     else:
         form = EventForm()
-
+        print(form.errors)
     return render(request, 'createvents.html', {'form': form})
-
 
 
 
